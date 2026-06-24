@@ -1,8 +1,8 @@
-import { Request, Response, NextFunction } from 'express';
-import { AuthService } from '../services/auth.service';
-import { prisma } from '../config/db';
+import { Request, Response, NextFunction } from 'express'
+import { AuthService } from '../services/auth.service'
+import { prisma } from '../config/db'
 
-const authService = new AuthService(prisma);
+const authService = new AuthService(prisma)
 
 export const register = async (
   req: Request,
@@ -10,15 +10,15 @@ export const register = async (
   next: NextFunction
 ) => {
   try {
-    const result = await authService.register(req.body);
+    const result = await authService.register(req.body)
     res.status(201).json({
       success: true,
-      data: result,
-    });
+      result,
+    })
   } catch (error) {
-    next(error);
+    next(error)
   }
-};
+}
 
 export const login = async (
   req: Request,
@@ -26,15 +26,12 @@ export const login = async (
   next: NextFunction
 ) => {
   try {
-    const result = await authService.login(req.body);
-    res.status(200).json({
-      success: true,
-      data: result,
-    });
+    const result = await authService.login(req.body)
+    res.status(200).json(result)
   } catch (error) {
-    next(error);
+    next(error)
   }
-};
+}
 
 export const refresh = async (
   req: Request,
@@ -42,16 +39,13 @@ export const refresh = async (
   next: NextFunction
 ) => {
   try {
-    const { refreshToken } = req.body;
-    const tokens = await authService.refresh(refreshToken);
-    res.status(200).json({
-      success: true,
-      data: tokens,
-    });
+    const { refreshToken } = req.body
+    const tokens = await authService.refresh(refreshToken)
+    res.status(200).json(tokens)
   } catch (error) {
-    next(error);
+    next(error)
   }
-};
+}
 
 export const logout = async (
   req: Request,
@@ -59,13 +53,13 @@ export const logout = async (
   next: NextFunction
 ) => {
   try {
-    const userId = (req as any).user.userId;
-    await authService.logout(userId);
+    const userId = (req as any).user.userId
+    await authService.logout(userId)
     res.status(200).json({
       success: true,
-      data: { message: 'Logged out successfully' },
-    });
+      message: 'Logged out successfully',
+    })
   } catch (error) {
-    next(error);
+    next(error)
   }
-};
+}

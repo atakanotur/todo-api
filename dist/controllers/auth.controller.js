@@ -9,7 +9,7 @@ const register = async (req, res, next) => {
         const result = await authService.register(req.body);
         res.status(201).json({
             success: true,
-            data: result,
+            result,
         });
     }
     catch (error) {
@@ -22,7 +22,7 @@ const login = async (req, res, next) => {
         const result = await authService.login(req.body);
         res.status(200).json({
             success: true,
-            data: result,
+            result,
         });
     }
     catch (error) {
@@ -36,7 +36,7 @@ const refresh = async (req, res, next) => {
         const tokens = await authService.refresh(refreshToken);
         res.status(200).json({
             success: true,
-            data: tokens,
+            tokens,
         });
     }
     catch (error) {
@@ -50,7 +50,7 @@ const logout = async (req, res, next) => {
         await authService.logout(userId);
         res.status(200).json({
             success: true,
-            data: { message: 'Logged out successfully' },
+            message: 'Logged out successfully',
         });
     }
     catch (error) {

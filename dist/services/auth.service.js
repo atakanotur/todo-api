@@ -9,7 +9,6 @@ const errors_1 = require("../utils/errors");
 const jwt_1 = require("../utils/jwt");
 class AuthService {
     prisma;
-
     constructor(prisma) {
         this.prisma = prisma;
     }
@@ -26,6 +25,13 @@ class AuthService {
                 email: data.email,
                 password: hashedPassword,
             },
+            select: {
+                id: true,
+                email: true,
+                name: true,
+                createdAt: true,
+                updatedAt: true,
+            },
         });
         const tokens = (0, jwt_1.generateTokens)({ userId: user.id });
         // Store refresh token
@@ -34,8 +40,9 @@ class AuthService {
             data: { refreshToken: tokens.refreshToken },
         });
         return {
-            user: { id: user.id, email: user.email },
-            tokens,
+            accessToken: tokens.accessToken,
+            refreshToken: tokens.refreshToken,
+            user,
         };
     }
     async login(data) {
@@ -54,9 +61,11 @@ class AuthService {
             where: { id: user.id },
             data: { refreshToken: tokens.refreshToken },
         });
+        const { password: _, refreshToken: __, ...userWithoutSensitiveData } = user;
         return {
-            user: { id: user.id, email: user.email },
-            tokens,
+            accessToken: tokens.accessToken,
+            refreshToken: tokens.refreshToken,
+            user: userWithoutSensitiveData,
         };
     }
     async refresh(refreshToken) {
