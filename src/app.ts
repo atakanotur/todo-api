@@ -3,6 +3,7 @@ import cors from 'cors';
 import helmet from 'helmet';
 import authRoutes from './routes/auth.routes';
 import todoRoutes from './routes/todo.routes';
+import userRoutes from './routes/user.routes';
 import { errorHandler } from './middlewares/errorHandler';
 
 const app = express();
@@ -15,6 +16,7 @@ app.use(express.json());
 // Routes
 app.use('/api/v1/auth', authRoutes);
 app.use('/api/v1/todos', todoRoutes);
+app.use('/api/v1/users', userRoutes);
 
 // Health check
 app.get('/health', (req, res) => {

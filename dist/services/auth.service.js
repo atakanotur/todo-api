@@ -9,6 +9,7 @@ const errors_1 = require("../utils/errors");
 const jwt_1 = require("../utils/jwt");
 class AuthService {
     prisma;
+
     constructor(prisma) {
         this.prisma = prisma;
     }

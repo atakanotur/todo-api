@@ -8,6 +8,7 @@ const cors_1 = __importDefault(require("cors"));
 const helmet_1 = __importDefault(require("helmet"));
 const auth_routes_1 = __importDefault(require("./routes/auth.routes"));
 const todo_routes_1 = __importDefault(require("./routes/todo.routes"));
+const user_routes_1 = __importDefault(require("./routes/user.routes"));
 const errorHandler_1 = require("./middlewares/errorHandler");
 const app = (0, express_1.default)();
 // Middlewares
@@ -17,6 +18,7 @@ app.use(express_1.default.json());
 // Routes
 app.use('/api/v1/auth', auth_routes_1.default);
 app.use('/api/v1/todos', todo_routes_1.default);
+app.use('/api/v1/users', user_routes_1.default);
 // Health check
 app.get('/health', (req, res) => {
     res.status(200).json({ success: true, message: 'Server is healthy' });

@@ -16,7 +16,21 @@ router.post(
   authController.register
 );
 
-router.post('/login', validateRequest(loginSchema), authController.login);
+router.post(
+  '/login',
+  (req, res, next) => {
+    // Kurumsal Loglama: Gelen datayı Zod validasyonundan önce logluyoruz (Şifreyi gizleyerek)
+    console.log(`🔑 [Login Request - ${new Date().toISOString()}] Gelen Data (Pre-Validation):`, {
+      email: req.body?.email || 'Belirtilmedi',
+      password: req.body?.password ? '*** MASKED ***' : 'Belirtilmedi',
+      ip: req.ip || req.socket.remoteAddress,
+      headers: { 'content-type': req.headers['content-type'] }
+    });
+    next();
+  },
+  validateRequest(loginSchema),
+  authController.login
+);
 
 router.post(
   '/refresh',
