@@ -27,6 +27,13 @@ export class AuthService {
         email: data.email,
         password: hashedPassword,
       },
+      select: {
+        id: true,
+        email: true,
+        name: true,
+        createdAt: true,
+        updatedAt: true,
+      },
     })
 
     const tokens = generateTokens({ userId: user.id })
@@ -38,8 +45,9 @@ export class AuthService {
     })
 
     return {
+      accessToken: tokens.accessToken,
+      refreshToken: tokens.refreshToken,
       user,
-      tokens,
     }
   }
 
@@ -65,9 +73,12 @@ export class AuthService {
       data: { refreshToken: tokens.refreshToken },
     })
 
+    const { password: _, refreshToken: __, ...userWithoutSensitiveData } = user
+
     return {
-      user,
-      tokens,
+      accessToken: tokens.accessToken,
+      refreshToken: tokens.refreshToken,
+      user: userWithoutSensitiveData,
     }
   }
 
