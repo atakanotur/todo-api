@@ -40,7 +40,16 @@ const authMiddleware_1 = require("../middlewares/authMiddleware");
 const auth_schema_1 = require("../schemas/auth.schema");
 const router = (0, express_1.Router)();
 router.post('/register', (0, validateRequest_1.validateRequest)(auth_schema_1.registerSchema), authController.register);
-router.post('/login', (0, validateRequest_1.validateRequest)(auth_schema_1.loginSchema), authController.login);
+router.post('/login', (req, res, next) => {
+    // Kurumsal Loglama: Gelen datayı Zod validasyonundan önce logluyoruz (Şifreyi gizleyerek)
+    console.log(`🔑 [Login Request - ${new Date().toISOString()}] Gelen Data (Pre-Validation):`, {
+        email: req.body?.email || 'Belirtilmedi',
+        password: req.body?.password ? '*** MASKED ***' : 'Belirtilmedi',
+        ip: req.ip || req.socket.remoteAddress,
+        headers: { 'content-type': req.headers['content-type'] }
+    });
+    next();
+}, (0, validateRequest_1.validateRequest)(auth_schema_1.loginSchema), authController.login);
 router.post('/refresh', (0, validateRequest_1.validateRequest)(auth_schema_1.refreshTokenSchema), authController.refresh);
 router.post('/logout', authMiddleware_1.requireAuth, authController.logout);
 exports.default = router;

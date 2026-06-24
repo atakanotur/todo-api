@@ -7,7 +7,8 @@ Modern, güvenilir ve ölçeklenebilir bir Todo API altyapısı. Node.js, TypeSc
 - [Yetkilendirme (Authentication)](#-yetkilendirme-authentication)
 - [API Uç Noktaları (Endpoints)](#-api-uç-noktaları-endpoints)
   - [Kimlik Doğrulama (Auth)](#1-kimlik-doğrulama-auth)
-  - [Görevler (Todos)](#2-görevler-todos)
+  - [Kullanıcı Profili (Users)](#2-kullanıcı-profili-users)
+  - [Görevler (Todos)](#3-görevler-todos)
 
 ---
 
@@ -93,7 +94,31 @@ Kullanıcı oturumunu kapatır ve Refresh Token'ı veritabanından siler.
 
 ---
 
-### 2. Görevler (Todos)
+### 2. Kullanıcı Profili (Users)
+
+Bu endpoint'lerin tamamı için **Auth (Bearer Token) gereklidir**.
+
+#### **Profil Görüntüleme (Get Me)**
+Oturum açmış kullanıcının kendi profil bilgilerini getirir. Parola gibi hassas veriler maskelenmiştir.
+- **URL:** `/users/me`
+- **Method:** `GET`
+- **Response (200 OK):** Kullanıcı objesi (id, email, name, createdAt, updatedAt).
+
+#### **Profil Güncelleme (Update Profile)**
+Kullanıcının profil bilgilerini (örneğin isim) günceller.
+- **URL:** `/users/profile`
+- **Method:** `PUT`
+- **Request Body (JSON):** *(Tüm alanlar opsiyoneldir)*
+  ```json
+  {
+    "name": "Yeni İsim" // En az 2 karakter
+  }
+  ```
+- **Response (200 OK):** Güncellenmiş kullanıcı objesi.
+
+---
+
+### 3. Görevler (Todos)
 
 Bu endpoint'lerin tamamı için **Auth (Bearer Token) gereklidir**.
 
