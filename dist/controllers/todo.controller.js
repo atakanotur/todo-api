@@ -8,10 +8,7 @@ const createTodo = async (req, res, next) => {
     try {
         const userId = req.user.userId;
         const result = await todoService.createTodo(userId, req.body);
-        res.status(201).json({
-            success: true,
-            data: result,
-        });
+        res.status(201).json(result);
     }
     catch (error) {
         next(error);
@@ -22,10 +19,8 @@ const getTodos = async (req, res, next) => {
     try {
         const userId = req.user.userId;
         const result = await todoService.getTodos(userId);
-        res.status(200).json({
-            success: true,
-            data: result,
-        });
+        console.log(result);
+        res.status(200).json(result);
     }
     catch (error) {
         next(error);
@@ -37,10 +32,7 @@ const getTodoById = async (req, res, next) => {
         const userId = req.user.userId;
         const todoId = req.params.id;
         const result = await todoService.getTodoById(userId, todoId);
-        res.status(200).json({
-            success: true,
-            data: result,
-        });
+        res.status(200).json(result);
     }
     catch (error) {
         next(error);
@@ -52,10 +44,7 @@ const updateTodo = async (req, res, next) => {
         const userId = req.user.userId;
         const todoId = req.params.id;
         const result = await todoService.updateTodo(userId, todoId, req.body);
-        res.status(200).json({
-            success: true,
-            data: result,
-        });
+        res.status(200).json(result);
     }
     catch (error) {
         next(error);
@@ -67,10 +56,7 @@ const deleteTodo = async (req, res, next) => {
         const userId = req.user.userId;
         const todoId = req.params.id;
         await todoService.deleteTodo(userId, todoId);
-        res.status(200).json({
-            success: true,
-            data: { message: 'Todo deleted successfully' },
-        });
+        res.status(200).json({ message: 'Todo deleted successfully' });
     }
     catch (error) {
         next(error);

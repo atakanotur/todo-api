@@ -8,7 +8,7 @@ class TodoService {
         this.prisma = prisma;
     }
     async createTodo(userId, data) {
-        return this.prisma.todo.create({
+        return await this.prisma.todo.create({
             data: {
                 ...data,
                 userId,
@@ -16,7 +16,7 @@ class TodoService {
         });
     }
     async getTodos(userId) {
-        return this.prisma.todo.findMany({
+        return await this.prisma.todo.findMany({
             where: { userId },
             orderBy: { createdAt: 'desc' },
         });
